@@ -17,6 +17,7 @@ public class NoteViewModel extends AndroidViewModel {
 
     public NoteViewModel(Application application) {
         super(application);
+
         noteRoomDataBase = NoteRoomDataBase.getDatabase(application);
         noteDao = noteRoomDataBase.noteDao();
 
@@ -24,8 +25,11 @@ public class NoteViewModel extends AndroidViewModel {
 
     //Createing Wrapper for insertion operation
     public void insert(NoteEntity noteEntity) {
-        //we are performing non UI operation we are using Async Task
-        new InsertAsyncTask(noteDao).execute(noteEntity);
+        //we are performing non UI operation so we are using Async Task
+        //alternatively you can enable .allowMainThreadQueries() in NoteRoomDatabaseClass
+
+        //new InsertAsyncTask(noteDao).execute(noteEntity);
+        noteDao.insert(noteEntity);
 
     }
 
@@ -36,6 +40,7 @@ public class NoteViewModel extends AndroidViewModel {
     }
 
 
+/*
     private static class InsertAsyncTask extends AsyncTask<NoteEntity,Void,Void> {
 
         NoteDao noteDao;
@@ -50,4 +55,5 @@ public class NoteViewModel extends AndroidViewModel {
             return null;
         }
     }
+*/
 }
